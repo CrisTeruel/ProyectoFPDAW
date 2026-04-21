@@ -11,7 +11,7 @@ import java.util.List;
 public class Libro {
 
     @Id
-    @Column(length = 10)
+    @Column(length = 13)
     private String isbn;
 
     @Column(nullable = false, length = 255)
