@@ -6,17 +6,17 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "autor")
-public class Autor {
+@Table(name = "categoria")
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false, length = 80)
     private String nombre;
 
-    // un autor puede tener muchos libros, un libro puede tener varios autores, cuidao con eso
-    @ManyToMany(mappedBy = "autores")
+    // una categoria puede tener muchos libros, un libro puede tener varias categorias segun la API q usamos
+    @ManyToMany(mappedBy = "categorias")
     private List<Libro> libros;
 }
