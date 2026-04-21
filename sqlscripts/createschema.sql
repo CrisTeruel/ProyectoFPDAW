@@ -2,8 +2,10 @@
 -- Base de datos: Librería Teruel Ayala
 -- Autor: Cristina Teruel Ayala
 -- Fecha: 2026
--- Motor: MySQL 8+
+-- Motor: MySQL 8 o superior
 -- ============================================================
+
+DROP DATABASE IF EXISTS libreria_teruel_ayala;
 
 CREATE DATABASE IF NOT EXISTS libreria_teruel_ayala
     CHARACTER SET utf8mb4
@@ -43,10 +45,10 @@ CREATE TABLE categoria (
 
 -- ------------------------------------------------------------
 -- Tabla: libro
--- Clave primaria es el ISBN-10 (unico por edicion, compatible con la API externa)
+-- Clave primaria es el ISBN-13 (unico por edicion, compatible con la API externa)
 -- ------------------------------------------------------------
 CREATE TABLE libro (
-    isbn                VARCHAR(10)     NOT NULL,
+    isbn                VARCHAR(13)     NOT NULL,
     titulo              VARCHAR(255)    NOT NULL,
     descripcion         TEXT,
     fecha_publicacion   DATE,
@@ -63,7 +65,7 @@ CREATE TABLE libro (
 -- Un libro puede tener varios autores y viceversa
 -- ------------------------------------------------------------
 CREATE TABLE libro_autor (
-    libro_isbn  VARCHAR(10)     NOT NULL,
+    libro_isbn  VARCHAR(13)     NOT NULL,
     autor_id    INT             NOT NULL,
     PRIMARY KEY (libro_isbn, autor_id),  -- clave compuesta
     CONSTRAINT fk_libroautor_libro
@@ -80,7 +82,7 @@ CREATE TABLE libro_autor (
 -- Tabla intermedia: libro_categoria (N:M entre libro y categoria)
 -- ------------------------------------------------------------
 CREATE TABLE libro_categoria (
-    libro_isbn      VARCHAR(10)     NOT NULL,
+    libro_isbn      VARCHAR(13)     NOT NULL,
     categoria_id    INT             NOT NULL,
     PRIMARY KEY (libro_isbn, categoria_id),  -- clave compuesta
     CONSTRAINT fk_librocategoria_libro
