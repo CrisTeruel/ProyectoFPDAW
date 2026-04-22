@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 // esta clase mapea la respuesta JSON de google books
-// JsonIgnoreProperties ignora los campos que no nos interesan
+// JsonIgnoreProperties ignora los otros campos que no nos interesan del json respuesta de google
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GoogleBooksResponse {
 

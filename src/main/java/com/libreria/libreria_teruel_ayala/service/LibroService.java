@@ -70,6 +70,7 @@ public class LibroService {
         // autores
         if (info.authors != null) {
             List<Autor> autores = new ArrayList<>();
+            // buscamos si ya existe el autor antes de darlo de alta
             for (String nombreAutor : info.authors) {
                 Autor autor = autorRepository.findByNombre(nombreAutor);
                 if (autor == null) {
@@ -85,6 +86,7 @@ public class LibroService {
         // categorias
         if (info.categories != null) {
             List<Categoria> categorias = new ArrayList<>();
+            // buscamos si ya existe la categoria antes de darla de alta
             for (String nombreCategoria : info.categories) {
                 Categoria categoria = categoriaRepository.findByNombre(nombreCategoria);
                 if (categoria == null) {
@@ -125,7 +127,12 @@ public class LibroService {
     public List<Libro> buscarPorIsbn(String isbn) {
         String isbn13 = IsbnUtils.toIsbn13(isbn);
         List<Libro> resultado = new ArrayList<>();
-        libroRepository.findById(isbn13).ifPresent(resultado::add);
+
+        Libro libro = libroRepository.findByIsbn(isbn13);
+        if (libro != null) {
+            resultado.add(libro);
+        }
+
         return resultado;
     }
 

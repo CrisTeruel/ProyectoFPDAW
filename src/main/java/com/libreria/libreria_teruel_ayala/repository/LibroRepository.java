@@ -15,6 +15,8 @@ public interface LibroRepository extends JpaRepository<Libro, String> {
     // buscar por categoria
     List<Libro> findByCategorias_Id(Integer categoriaId);
 
+    Libro findByIsbn(String isbn);
+
     // los ultimos 5 añadidos para la pagina de inicio
     // TODO: esto habria que ordenarlo por fecha de insercion, de momento queda asi
     List<Libro> findTop5ByOrderByFechaPublicacionDesc();
