@@ -15,19 +15,27 @@ public class GoogleBooksService {
 
     public GoogleBooksResponse.VolumeInfo buscarPorIsbn(String isbn) {
 
-        // convertimos a ISBN-13 SIEMPRE antes de consultar
-        String isbn13 = IsbnUtils.toIsbn13(isbn);
+        try {
+            // convertimos a ISBN-13 SIEMPRE antes de consultar
+            String isbn13 = IsbnUtils.toIsbn13(isbn);
 
-        GoogleBooksResponse respuesta = restTemplate.getForObject(
-                URL + isbn13,
-                GoogleBooksResponse.class
-        );
+            GoogleBooksResponse respuesta = restTemplate.getForObject(
+                    URL + isbn13,
+                    GoogleBooksResponse.class
+            );
 
-        // si no encuentra nada devuelve null
-        if (respuesta == null || respuesta.items == null || respuesta.items.isEmpty()) {
+            // si no encuentra nada devuelve null
+            if (respuesta == null || respuesta.items == null || respuesta.items.isEmpty()) {
+                return null;
+            }
+
+            return respuesta.items.get(0).volumeInfo;
+
+        } catch (Exception e) {
+            // si la api de google peta (500, timeout, etc.) devolvemos null
+            // el servicio que llame a esto tiene que comprobar si es null
+            System.out.println("Error llamando a Google Books: " + e.getMessage());
             return null;
         }
-
-        return respuesta.items.get(0).volumeInfo;
     }
 }
