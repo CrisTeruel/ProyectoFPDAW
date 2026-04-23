@@ -39,10 +39,13 @@
     <div class="row">
         <div class="col-md-2 mb-4" th:each="libro : ${libros}">
             <div class="card h-100">
-                <!-- portada si tiene, sino imagen por defecto -->
+                <!-- si tiene portada la mostramos, sino la imagen por defecto -->
                 <img th:if="${libro.portada != null}"
                      th:src="${libro.portada}"
                      class="card-img-top" alt="portada">
+                <img th:unless="${libro.portada != null}"
+                     th:src="@{/img/sin-portada.jpg}"
+                     class="card-img-top" alt="sin portada">
                 <div class="card-body">
                     <h6 class="card-title" th:text="${libro.titulo}"></h6>
                     <p class="card-text text-muted small"
