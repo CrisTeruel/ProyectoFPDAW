@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Búsqueda - Librería Teruel Ayala</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/}">Librería Teruel Ayala</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" th:href="@{/busqueda}">Búsqueda</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/admin}">Admin</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+
+  <h2 class="mb-3">Búsqueda de libros</h2>
+
+  <!-- formulario de busqueda -->
+  <form th:action="@{/busqueda}" method="get" class="mb-4">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <input type="text" name="titulo" class="form-control"
+               placeholder="Título" th:value="${param.titulo}">
+      </div>
+      <div class="col-md-3">
+        <input type="text" name="autor" class="form-control"
+               placeholder="Autor" th:value="${param.autor}">
+      </div>
+      <div class="col-md-2">
+        <input type="text" name="isbn" class="form-control"
+               placeholder="ISBN" th:value="${param.isbn}">
+      </div>
+      <div class="col-md-2">
+        <!-- desplegable de categorias -->
+        <select name="categoriaId" class="form-select">
+          <option value="">Todas las categorías</option>
+          <option th:each="categoria : ${categorias}"
+                  th:value="${categoria.id}"
+                  th:text="${categoria.nombre}">
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-dark w-100">Buscar</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- resultados -->
+  <div th:if="${resultados != null}">
+    <h5 th:if="${resultados.isEmpty()}">No se han encontrado libros</h5>
+    <div class="row" th:unless="${resultados.isEmpty()}">
+      <div class="col-md-2 mb-4" th:each="libro : ${resultados}">
+        <div class="card h-100">
+          <img th:if="${libro.portada != null}"
+               th:src="${libro.portada}"
+               class="card-img-top" alt="portada">
+          <img th:unless="${libro.portada != null}"
+               th:src="@{/img/sin-portada.jpg}"
+               class="card-img-top" alt="sin portada">
+          <div class="card-body">
+            <h6 class="card-title" th:text="${libro.titulo}"></h6>
+            <p class="card-text text-muted small"
+               th:each="autor : ${libro.autores}"
+               th:text="${autor.nombre}"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
