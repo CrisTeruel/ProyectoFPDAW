@@ -99,6 +99,11 @@ public class LibroService {
             libro.setCategorias(categorias);
         }
 
+        // guardamos la url del thumbnail
+        if (info.imageLinks != null) {
+            libro.setPortada(info.imageLinks.thumbnail);
+        }
+
         return libroRepository.save(libro);
     }
 

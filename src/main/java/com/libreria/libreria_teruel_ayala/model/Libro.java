@@ -23,6 +23,10 @@ public class Libro {
     @Column(name = "fecha_publicacion")
     private LocalDate fechaPublicacion;
 
+    // url de la portada que nos devuelve google books
+    @Column(length = 500)
+    private String portada;
+
     // una editorial tiene muchos libros
     @ManyToOne
     @JoinColumn(name = "editorial_id", nullable = false)

@@ -52,6 +52,7 @@ CREATE TABLE libro (
     titulo              VARCHAR(255)    NOT NULL,
     descripcion         TEXT,
     fecha_publicacion   DATE,
+    portada             VARCHAR(500),
     editorial_id        INT             NOT NULL,
     PRIMARY KEY (isbn),
     CONSTRAINT fk_libro_editorial
