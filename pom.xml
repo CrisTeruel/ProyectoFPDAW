@@ -5,6 +5,7 @@
              https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+	
 
     <!-- Spring Boot como padre, nos da versiones de dependencias GRATIS!!!! -->
     <parent>
@@ -21,9 +22,11 @@
     <name>libreria-teruel-ayala</name>
     <description>Proyecto DAW - Librería Teruel Ayala</description>
 
-    <properties>
-        <java.version>17</java.version>
-    </properties>
+	<properties>
+		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
 
     <dependencies>
 
@@ -111,3 +114,5 @@
     </build>
 
 </project>
+
+
