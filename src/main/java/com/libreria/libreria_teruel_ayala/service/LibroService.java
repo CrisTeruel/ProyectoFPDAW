@@ -46,7 +46,11 @@ public class LibroService {
         Editorial editorial = editorialRepository.findByNombre(info.publisher);
         if (editorial == null) {
             editorial = new Editorial();
-            editorial.setNombre(info.publisher != null ? info.publisher : "Desconocida");
+            if (info.publisher != null) { //Si google respondio que encontro el libro, pero la editorial sale nula, le ponemos Desconocida
+                editorial.setNombre(info.publisher);
+            } else {
+                editorial.setNombre("Desconocida");
+            }
             editorial = editorialRepository.save(editorial);
         }
 
