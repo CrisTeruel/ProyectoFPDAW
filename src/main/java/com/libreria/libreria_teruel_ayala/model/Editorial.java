@@ -16,7 +16,7 @@ public class Editorial {
     @Column(nullable = false, length = 120)
     private String nombre;
 
-    // una editorial tiene muchos libros
+    // una editorail tiene muchos libros
     @OneToMany(mappedBy = "editorial")
     private List<Libro> libros;
 }

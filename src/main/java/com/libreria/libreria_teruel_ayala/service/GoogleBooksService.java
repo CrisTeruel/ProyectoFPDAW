@@ -29,7 +29,6 @@ public class GoogleBooksService {
             return respuesta.items.get(0).volumeInfo;
 
         } catch (Exception e) {
-            // si peta google (timeout, 500, etc) devuelvo null y que el service lo controle
             System.out.println("error google books: " + e.getMessage());
             return null;
         }

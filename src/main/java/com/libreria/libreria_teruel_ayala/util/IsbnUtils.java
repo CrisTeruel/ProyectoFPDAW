@@ -2,8 +2,7 @@ package com.libreria.libreria_teruel_ayala.util;
 
 public class IsbnUtils {
 
-    // pasa de ISBN-10 a ISBN-13. Si ya es 13 lo devuelve tal cual.
-    // la formula de stackoverflow
+    // pasa de ISBN-10 a ISBN-13. formula sacada de stackoverflow
     public static String toIsbn13(String isbn) {
         isbn = isbn.replaceAll("-", "").trim();
 

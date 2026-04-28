@@ -16,7 +16,7 @@ public class Categoria {
     @Column(nullable = false, length = 80)
     private String nombre;
 
-    // una categoria puede tener muchos libros, un libro puede tener varias categorias segun la API q usamos
+    // muchos a muchos con libro
     @ManyToMany(mappedBy = "categorias")
     private List<Libro> libros;
 }

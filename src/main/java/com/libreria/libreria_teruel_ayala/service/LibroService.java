@@ -27,22 +27,24 @@ public class LibroService {
 
     public Libro añadirLibro(String isbn) {
 
-        String isbn13 = IsbnUtils.toIsbn13(isbn);
+        String isbnLimpio = IsbnUtils.toIsbn13(isbn);
 
-        if (libroRepository.existsById(isbn13)) {
+        if (libroRepository.existsById(isbnLimpio)) {
             throw new RuntimeException("El libro ya existe en la libreria");
         }
 
-        GoogleBooksResponse.VolumeInfo info = googleBooksService.buscarPorIsbn(isbn13);
+        GoogleBooksResponse.VolumeInfo info = googleBooksService.buscarPorIsbn(isbnLimpio);
         if (info == null) {
             throw new RuntimeException("No se ha encontrado el libro en Google Books");
         }
 
-        // editorial: Si no esta en bd la creo
+        System.out.println(info.title);
+
+        // editorial
         Editorial editorial = editorialRepository.findByNombre(info.publisher);
         if (editorial == null) {
             editorial = new Editorial();
-            // A veces google no devuelve publisher, asi no peta el campo not null
+            // si google no devuelve publisher poner Desconocida, sino peta el not null
             if (info.publisher != null) {
                 editorial.setNombre(info.publisher);
             } else {
@@ -52,12 +54,12 @@ public class LibroService {
         }
 
         Libro libro = new Libro();
-        libro.setIsbn(isbn13);
+        libro.setIsbn(isbnLimpio);
         libro.setTitulo(info.title);
         libro.setDescripcion(info.description);
         libro.setEditorial(editorial);
 
-        // La fecha a veces viene "2025-11-18" y otras solo "2025" y entonces parse explota
+        // si solo viene el año peta el parse
         if (info.publishedDate != null) {
             try {
                 libro.setFechaPublicacion(LocalDate.parse(info.publishedDate));
@@ -70,7 +72,7 @@ public class LibroService {
             libro.setAutores(buscarOCrearAutores(info.authors));
         }
 
-        // categorias - es practicamente igual que autores, en algun momento lo paso a metodo
+        // igual que con autores pero categorias
         if (info.categories != null) {
             List<Categoria> cats = new ArrayList<>();
             for (String n : info.categories) {
@@ -92,7 +94,7 @@ public class LibroService {
         return libroRepository.save(libro);
     }
 
-    // saqué esto a metodo porque hacerlo dentro del añadirLibro me quedaba ilegible
+    // metodo aparte para autores
     private List<Autor> buscarOCrearAutores(List<String> nombres) {
         List<Autor> autores = new ArrayList<>();
         for (String nombre : nombres) {
@@ -128,7 +130,6 @@ public class LibroService {
         return libroRepository.findByCategorias_Id(categoriaId);
     }
 
-    // devuelvo lista aunque sea 1 solo, asi la vista trata todas las busquedas igual
     public List<Libro> buscarPorIsbn(String isbn) {
         String isbn13 = IsbnUtils.toIsbn13(isbn);
         List<Libro> resultado = new ArrayList<>();
@@ -144,6 +145,7 @@ public class LibroService {
     }
 
     public List<Libro> todos() {
+        // libroRepository.deleteAll();
         return libroRepository.findAll();
     }
 

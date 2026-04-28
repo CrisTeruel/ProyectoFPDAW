@@ -27,15 +27,15 @@ public class BusquedaController {
             @RequestParam(required = false) Integer categoriaId,
             Model model) {
 
-        // categorias siempre van, las necesito para el desplegable
+        // Categorias para el desplegable
         model.addAttribute("categorias", libroService.todasLasCategorias());
 
-        // primera carga sin parametros -> no busco nada todavia
+        // si entran sin buscar nada
         if (titulo == null && autor == null && isbn == null && categoriaId == null) {
             return "busqueda";
         }
 
-        // prioridad: isbn > titulo > autor > categoria
+        // orden de prioridad: isbn, titulo, autor, categoria
         if (isbn != null && !isbn.isEmpty()) {
             model.addAttribute("resultados", libroService.buscarPorIsbn(isbn));
         } else if (titulo != null && !titulo.isEmpty()) {

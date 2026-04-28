@@ -14,6 +14,6 @@ public interface LibroRepository extends JpaRepository<Libro, String> {
 
     Libro findByIsbn(String isbn);
 
-    // TODO ordenar por fecha de alta cuando añada ese campo, de momento por publicacion
+    // TODO ordenar bien
     List<Libro> findTop5ByOrderByFechaPublicacionDesc();
 }

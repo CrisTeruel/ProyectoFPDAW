@@ -27,7 +27,6 @@ public class AdminController {
         } catch (RuntimeException e) {
             model.addAttribute("error", e.getMessage());
         }
-        // refresco la lista para que se vea el nuevo libro
         model.addAttribute("libros", libroService.todos());
         return "admin";
     }
