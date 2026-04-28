@@ -36,7 +36,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         // rutas publicas
-                        .requestMatchers("/", "/busqueda", "/img/**", "/css/**").permitAll()
+                        .requestMatchers("/", "/busqueda", "/libro/**", "/img/**", "/css/**").permitAll()
                         // lo de admin requiere login
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
