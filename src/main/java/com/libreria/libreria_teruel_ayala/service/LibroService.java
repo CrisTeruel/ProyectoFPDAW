@@ -38,11 +38,11 @@ public class LibroService {
             throw new RuntimeException("No se ha encontrado el libro en Google Books");
         }
 
-        // editorial: si no esta en bd la creo
+        // editorial: Si no esta en bd la creo
         Editorial editorial = editorialRepository.findByNombre(info.publisher);
         if (editorial == null) {
             editorial = new Editorial();
-            // a veces google no devuelve publisher, asi no peta el campo not null
+            // A veces google no devuelve publisher, asi no peta el campo not null
             if (info.publisher != null) {
                 editorial.setNombre(info.publisher);
             } else {
@@ -57,7 +57,7 @@ public class LibroService {
         libro.setDescripcion(info.description);
         libro.setEditorial(editorial);
 
-        // la fecha a veces viene "2025-11-18" y otras solo "2025" y entonces parse explota
+        // La fecha a veces viene "2025-11-18" y otras solo "2025" y entonces parse explota
         if (info.publishedDate != null) {
             try {
                 libro.setFechaPublicacion(LocalDate.parse(info.publishedDate));
@@ -70,7 +70,7 @@ public class LibroService {
             libro.setAutores(buscarOCrearAutores(info.authors));
         }
 
-        // categorias - es practicamente igual que autores, en algun momento lo paso a metodo (TODO)
+        // categorias - es practicamente igual que autores, en algun momento lo paso a metodo
         if (info.categories != null) {
             List<Categoria> cats = new ArrayList<>();
             for (String n : info.categories) {
