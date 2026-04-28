@@ -1,10 +1,13 @@
 package com.libreria.libreria_teruel_ayala.controller;
 
 import com.libreria.libreria_teruel_ayala.service.LibroService;
+import com.libreria.libreria_teruel_ayala.repository.LibroRepository;
+import com.libreria.libreria_teruel_ayala.model.Libro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -12,6 +15,9 @@ public class BusquedaController {
 
     @Autowired
     private LibroService libroService;
+
+    @Autowired
+    private LibroRepository libroRepository;
 
     @GetMapping("/busqueda")
     public String busqueda(
@@ -42,5 +48,15 @@ public class BusquedaController {
         }
 
         return "busqueda";
+    }
+
+    @GetMapping("/libro/{isbn}")
+    public String detalle(@PathVariable String isbn, Model model) {
+        Libro libro = libroRepository.findByIsbn(isbn);
+        if (libro == null) {
+            return "redirect:/busqueda";
+        }
+        model.addAttribute("libro", libro);
+        return "libro";
     }
 }

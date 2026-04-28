@@ -45,7 +45,6 @@
                placeholder="ISBN" th:value="${param.isbn}">
       </div>
       <div class="col-md-2">
-        <!-- desplegable de categorias -->
         <select name="categoriaId" class="form-select">
           <option value="">Todas las categorías</option>
           <option th:each="categoria : ${categorias}"
@@ -65,20 +64,22 @@
     <h5 th:if="${resultados.isEmpty()}">No se han encontrado libros</h5>
     <div class="row" th:unless="${resultados.isEmpty()}">
       <div class="col-md-2 mb-4" th:each="libro : ${resultados}">
-        <div class="card h-100">
-          <img th:if="${libro.portada != null}"
-               th:src="${libro.portada}"
-               class="card-img-top" alt="portada">
-          <img th:unless="${libro.portada != null}"
-               th:src="@{/img/sin-portada.jpg}"
-               class="card-img-top" alt="sin portada">
-          <div class="card-body">
-            <h6 class="card-title" th:text="${libro.titulo}"></h6>
-            <p class="card-text text-muted small"
-               th:each="autor : ${libro.autores}"
-               th:text="${autor.nombre}"></p>
+        <a th:href="@{/libro/{isbn}(isbn=${libro.isbn})}" class="text-decoration-none text-dark">
+          <div class="card h-100">
+            <img th:if="${libro.portada != null}"
+                 th:src="${libro.portada}"
+                 class="card-img-top" alt="portada">
+            <img th:unless="${libro.portada != null}"
+                 th:src="@{/img/sin-portada.jpg}"
+                 class="card-img-top" alt="sin portada">
+            <div class="card-body">
+              <h6 class="card-title" th:text="${libro.titulo}"></h6>
+              <p class="card-text text-muted small"
+                 th:each="autor : ${libro.autores}"
+                 th:text="${autor.nombre}"></p>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
