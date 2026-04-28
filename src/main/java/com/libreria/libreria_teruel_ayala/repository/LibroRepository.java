@@ -6,18 +6,14 @@ import java.util.List;
 
 public interface LibroRepository extends JpaRepository<Libro, String> {
 
-    // buscar por titulo parcial
     List<Libro> findByTituloContainingIgnoreCase(String titulo);
 
-    // buscar por nombre de autor parcial
     List<Libro> findByAutoresNombreContainingIgnoreCase(String nombre);
 
-    // buscar por categoria
     List<Libro> findByCategorias_Id(Integer categoriaId);
 
     Libro findByIsbn(String isbn);
 
-    // los ultimos 5 añadidos para la pagina de inicio
-    // TODO: esto habria que ordenarlo por fecha de insercion, de momento queda asi
+    // TODO ordenar por fecha de alta cuando añada ese campo, de momento por publicacion
     List<Libro> findTop5ByOrderByFechaPublicacionDesc();
 }

@@ -5,6 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EditorialRepository extends JpaRepository<Editorial, Integer> {
 
-    // buscar editorial por nombre para no duplicar
     Editorial findByNombre(String nombre);
 }

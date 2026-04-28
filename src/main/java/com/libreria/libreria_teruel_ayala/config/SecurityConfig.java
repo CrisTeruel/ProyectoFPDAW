@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // usuario admin hardcodeado
+    // de momento solo hay un user admin metido a mano, no hay tabla de usuarios
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails admin = User.builder()
@@ -35,14 +35,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // rutas publicas
                         .requestMatchers("/", "/busqueda", "/libro/**", "/img/**", "/css/**").permitAll()
-                        // lo de admin requiere login
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        // pagina de login
                         .loginPage("/login")
                         .permitAll()
                 )

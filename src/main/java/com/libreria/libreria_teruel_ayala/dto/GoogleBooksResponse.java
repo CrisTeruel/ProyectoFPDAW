@@ -3,8 +3,7 @@ package com.libreria.libreria_teruel_ayala.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
-// esta clase mapea la respuesta JSON de google books
-// JsonIgnoreProperties ignora los otros campos que no nos interesan del json respuesta de google
+// estructura de la respuesta json de google books, solo me quedo con lo que uso
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GoogleBooksResponse {
 

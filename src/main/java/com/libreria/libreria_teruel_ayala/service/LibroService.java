@@ -24,29 +24,26 @@ public class LibroService {
     @Autowired
     private GoogleBooksService googleBooksService;
 
-    // añadir libro a partir de un ISBN
+
     public Libro añadirLibro(String isbn) {
 
         String isbn13 = IsbnUtils.toIsbn13(isbn);
 
-        // comprobamos que no este ya en la bbdd
         if (libroRepository.existsById(isbn13)) {
             throw new RuntimeException("El libro ya existe en la libreria");
         }
 
-        // consultamos la api
         GoogleBooksResponse.VolumeInfo info = googleBooksService.buscarPorIsbn(isbn13);
-
-        // si peta, la api devuelve null en info
         if (info == null) {
             throw new RuntimeException("No se ha encontrado el libro en Google Books");
         }
 
-        // buscamos o creamos la editorial
+        // editorial: si no esta en bd la creo
         Editorial editorial = editorialRepository.findByNombre(info.publisher);
         if (editorial == null) {
             editorial = new Editorial();
-            if (info.publisher != null) { //Si google respondio que encontro el libro, pero la editorial sale nula, le ponemos Desconocida
+            // a veces google no devuelve publisher, asi no peta el campo not null
+            if (info.publisher != null) {
                 editorial.setNombre(info.publisher);
             } else {
                 editorial.setNombre("Desconocida");
@@ -54,56 +51,40 @@ public class LibroService {
             editorial = editorialRepository.save(editorial);
         }
 
-        // creamos el libro
         Libro libro = new Libro();
         libro.setIsbn(isbn13);
         libro.setTitulo(info.title);
         libro.setDescripcion(info.description);
         libro.setEditorial(editorial);
 
-        // la fecha viene como string "2025-11-18" o a veces solo "2025"
+        // la fecha a veces viene "2025-11-18" y otras solo "2025" y entonces parse explota
         if (info.publishedDate != null) {
             try {
                 libro.setFechaPublicacion(LocalDate.parse(info.publishedDate));
             } catch (Exception e) {
-                // si solo viene el año no podemos parsear, dejamos null
-                System.out.println("Fecha no parseable: " + info.publishedDate);
+                System.out.println("fecha rara: " + info.publishedDate);
             }
         }
 
-        // autores
         if (info.authors != null) {
-            List<Autor> autores = new ArrayList<>();
-            // buscamos si ya existe el autor antes de darlo de alta
-            for (String nombreAutor : info.authors) {
-                Autor autor = autorRepository.findByNombre(nombreAutor);
-                if (autor == null) {
-                    autor = new Autor();
-                    autor.setNombre(nombreAutor);
-                    autor = autorRepository.save(autor);
-                }
-                autores.add(autor);
-            }
-            libro.setAutores(autores);
+            libro.setAutores(buscarOCrearAutores(info.authors));
         }
 
-        // categorias
+        // categorias - es practicamente igual que autores, en algun momento lo paso a metodo (TODO)
         if (info.categories != null) {
-            List<Categoria> categorias = new ArrayList<>();
-            // buscamos si ya existe la categoria antes de darla de alta
-            for (String nombreCategoria : info.categories) {
-                Categoria categoria = categoriaRepository.findByNombre(nombreCategoria);
-                if (categoria == null) {
-                    categoria = new Categoria();
-                    categoria.setNombre(nombreCategoria);
-                    categoria = categoriaRepository.save(categoria);
+            List<Categoria> cats = new ArrayList<>();
+            for (String n : info.categories) {
+                Categoria c = categoriaRepository.findByNombre(n);
+                if (c == null) {
+                    c = new Categoria();
+                    c.setNombre(n);
+                    c = categoriaRepository.save(c);
                 }
-                categorias.add(categoria);
+                cats.add(c);
             }
-            libro.setCategorias(categorias);
+            libro.setCategorias(cats);
         }
 
-        // guardamos la url del thumbnail
         if (info.imageLinks != null) {
             libro.setPortada(info.imageLinks.thumbnail);
         }
@@ -111,7 +92,22 @@ public class LibroService {
         return libroRepository.save(libro);
     }
 
-    // borrar libro por ISBN
+    // saqué esto a metodo porque hacerlo dentro del añadirLibro me quedaba ilegible
+    private List<Autor> buscarOCrearAutores(List<String> nombres) {
+        List<Autor> autores = new ArrayList<>();
+        for (String nombre : nombres) {
+            Autor autor = autorRepository.findByNombre(nombre);
+            if (autor == null) {
+                autor = new Autor();
+                autor.setNombre(nombre);
+                autor = autorRepository.save(autor);
+            }
+            autores.add(autor);
+        }
+        return autores;
+    }
+
+
     public void borrarLibro(String isbn) {
         String isbn13 = IsbnUtils.toIsbn13(isbn);
         if (!libroRepository.existsById(isbn13)) {
@@ -120,7 +116,6 @@ public class LibroService {
         libroRepository.deleteById(isbn13);
     }
 
-    // busquedas
     public List<Libro> buscarPorTitulo(String titulo) {
         return libroRepository.findByTituloContainingIgnoreCase(titulo);
     }
@@ -133,29 +128,25 @@ public class LibroService {
         return libroRepository.findByCategorias_Id(categoriaId);
     }
 
+    // devuelvo lista aunque sea 1 solo, asi la vista trata todas las busquedas igual
     public List<Libro> buscarPorIsbn(String isbn) {
         String isbn13 = IsbnUtils.toIsbn13(isbn);
         List<Libro> resultado = new ArrayList<>();
-
         Libro libro = libroRepository.findByIsbn(isbn13);
         if (libro != null) {
             resultado.add(libro);
         }
-
         return resultado;
     }
 
-    // ultimos 5 para la pagina de inicio
     public List<Libro> ultimos5() {
         return libroRepository.findTop5ByOrderByFechaPublicacionDesc();
     }
 
-    // todos los libros
     public List<Libro> todos() {
         return libroRepository.findAll();
     }
 
-    // todas las categorias para el desplegable
     public List<Categoria> todasLasCategorias() {
         return categoriaRepository.findAll();
     }

@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" th:href="@{/}">Librería Teruel Ayala</a>
@@ -21,7 +20,6 @@
           <a class="nav-link active" th:href="@{/admin}">Admin</a>
         </li>
         <li class="nav-item">
-          <!-- boton de cerrar sesion -->
           <form th:action="@{/logout}" method="post" class="d-inline">
             <button type="submit" class="btn btn-outline-light btn-sm ms-2">
               Cerrar sesión
@@ -37,11 +35,10 @@
 
   <h2 class="mb-4">Panel de administración</h2>
 
-  <!-- mensajes de ok o error -->
   <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
   <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-  <!-- formulario añadir libro -->
+  <!-- añadir libro por isbn -->
   <div class="card mb-4">
     <div class="card-header">Añadir libro</div>
     <div class="card-body">
@@ -57,7 +54,6 @@
     </div>
   </div>
 
-  <!-- tabla de libros -->
   <h5>Libros en stock (<span th:text="${#lists.size(libros)}"></span> libros)</h5>
   <table class="table table-striped">
     <thead>

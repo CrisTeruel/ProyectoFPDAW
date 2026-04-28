@@ -14,8 +14,7 @@ public class InicioController {
 
     @GetMapping("/")
     public String inicio(Model model) {
-        // mandamos los ultimos 5 libros a la vista
         model.addAttribute("libros", libroService.ultimos5());
-        return "inicio"; // esto busca src/main/resources/templates/inicio.html
+        return "inicio";
     }
 }

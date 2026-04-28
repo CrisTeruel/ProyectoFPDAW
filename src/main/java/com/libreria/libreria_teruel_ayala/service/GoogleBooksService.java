@@ -8,7 +8,6 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class GoogleBooksService {
 
-    // RestTemplate es el cliente HTTP de Spring para llamar a APIs externas
     private final RestTemplate restTemplate = new RestTemplate();
 
     private static final String URL = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
@@ -16,7 +15,6 @@ public class GoogleBooksService {
     public GoogleBooksResponse.VolumeInfo buscarPorIsbn(String isbn) {
 
         try {
-            // convertimos a ISBN-13 SIEMPRE antes de consultar
             String isbn13 = IsbnUtils.toIsbn13(isbn);
 
             GoogleBooksResponse respuesta = restTemplate.getForObject(
@@ -24,7 +22,6 @@ public class GoogleBooksService {
                     GoogleBooksResponse.class
             );
 
-            // si no encuentra nada devuelve null
             if (respuesta == null || respuesta.items == null || respuesta.items.isEmpty()) {
                 return null;
             }
@@ -32,9 +29,8 @@ public class GoogleBooksService {
             return respuesta.items.get(0).volumeInfo;
 
         } catch (Exception e) {
-            // si la api de google peta (500, timeout, etc.) devolvemos null
-            // el servicio que llame a esto tiene que comprobar si es null
-            System.out.println("Error llamando a Google Books: " + e.getMessage());
+            // si peta google (timeout, 500, etc) devuelvo null y que el service lo controle
+            System.out.println("error google books: " + e.getMessage());
             return null;
         }
     }

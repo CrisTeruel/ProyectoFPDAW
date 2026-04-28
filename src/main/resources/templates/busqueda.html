@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" th:href="@{/}">Librería Teruel Ayala</a>
@@ -29,7 +28,6 @@
 
   <h2 class="mb-3">Búsqueda de libros</h2>
 
-  <!-- formulario de busqueda -->
   <form th:action="@{/busqueda}" method="get" class="mb-4">
     <div class="row g-3">
       <div class="col-md-3">
@@ -59,7 +57,6 @@
     </div>
   </form>
 
-  <!-- resultados -->
   <div th:if="${resultados != null}">
     <h5 th:if="${resultados.isEmpty()}">No se han encontrado libros</h5>
     <div class="row" th:unless="${resultados.isEmpty()}">
