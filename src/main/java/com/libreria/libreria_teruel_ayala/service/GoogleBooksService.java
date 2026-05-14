@@ -9,16 +9,18 @@ import org.springframework.web.client.RestTemplate;
 public class GoogleBooksService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-
+    
+    private static final String API_KEY = "AIzaSyASKdu2WPJ9LHKTr4sevRMQH-_LTuXih9g";
     private static final String URL = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
 
     public GoogleBooksResponse.VolumeInfo buscarPorIsbn(String isbn) {
-
         try {
             String isbn13 = IsbnUtils.toIsbn13(isbn);
 
+            String urlCompleta = URL + isbn13 + "&key=" + API_KEY;
+
             GoogleBooksResponse respuesta = restTemplate.getForObject(
-                    URL + isbn13,
+                    urlCompleta,
                     GoogleBooksResponse.class
             );
 
@@ -29,7 +31,8 @@ public class GoogleBooksService {
             return respuesta.items.get(0).volumeInfo;
 
         } catch (Exception e) {
-            System.out.println("error google books: " + e.getMessage());
+            // si la api peta devolvemos null
+            System.out.println("Error llamando a Google Books: " + e.getMessage());
             return null;
         }
     }
