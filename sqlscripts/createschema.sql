@@ -42,7 +42,7 @@ CREATE TABLE categoria (
     nombre  VARCHAR(80)     NOT NULL,
     PRIMARY KEY (id)
 );
-
+  
 -- ------------------------------------------------------------
 -- Tabla: libro
 -- Clave primaria es el ISBN-13 (unico por edicion, compatible con la API externa)
