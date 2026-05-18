@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public class GoogleBooksService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    
+
     private static final String API_KEY = "AIzaSyASKdu2WPJ9LHKTr4sevRMQH-_LTuXih9g";
     private static final String URL = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
 

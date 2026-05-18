@@ -91,6 +91,7 @@ public class LibroService {
             libro.setPortada(info.imageLinks.thumbnail);
         }
 
+        libro.setFechaAlta(java.time.LocalDateTime.now());
         return libroRepository.save(libro);
     }
 
@@ -141,7 +142,7 @@ public class LibroService {
     }
 
     public List<Libro> ultimos5() {
-        return libroRepository.findTop5ByOrderByFechaPublicacionDesc();
+        return libroRepository.findTop5ByOrderByFechaAltaDesc();
     }
 
     public List<Libro> todos() {

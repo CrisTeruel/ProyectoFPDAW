@@ -32,6 +32,12 @@ public class Libro {
     @JoinColumn(name = "editorial_id", nullable = false)
     private Editorial editorial;
 
+    // fecha de cuando se metio el libro en la libreria
+    // se rellena automaticamente al guardar
+    @Column(name = "fecha_alta")
+    private java.time.LocalDateTime fechaAlta;
+
+
     // tabla relacion libro_autor
     @ManyToMany
     @JoinTable(

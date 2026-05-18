@@ -54,6 +54,7 @@ CREATE TABLE libro (
     fecha_publicacion   DATE,
     portada             VARCHAR(500),
     editorial_id        INT             NOT NULL,
+    fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (isbn),
     CONSTRAINT fk_libro_editorial
         FOREIGN KEY (editorial_id) REFERENCES editorial (id)

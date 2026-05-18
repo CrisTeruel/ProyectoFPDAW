@@ -1,6 +1,4 @@
 TO_DO
 
-timestamp de añadido para filtar correctamente los 5 mas recientes.
 añadir in stock?
 añadir al / La vista de inicio mostrará información relativa a la librería, localización, logo, opciones de contacto… , 
-cambiar en la docu q al final usamos IntelliJ Idea en vez de Visual Studio
