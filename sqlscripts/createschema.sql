@@ -55,6 +55,7 @@ CREATE TABLE libro (
     portada             VARCHAR(500),
     editorial_id        INT             NOT NULL,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    en_stock BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (isbn),
     CONSTRAINT fk_libro_editorial
         FOREIGN KEY (editorial_id) REFERENCES editorial (id)
