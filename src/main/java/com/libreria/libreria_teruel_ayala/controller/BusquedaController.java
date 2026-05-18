@@ -31,7 +31,11 @@ public class BusquedaController {
         model.addAttribute("categorias", libroService.todasLasCategorias());
 
         // si entran sin buscar nada
-        if (titulo == null && autor == null && isbn == null && categoriaId == null) {
+        if ((titulo == null || titulo.isEmpty())
+                && (autor == null || autor.isEmpty())
+                && (isbn == null || isbn.isEmpty())
+                && categoriaId == null) {
+            model.addAttribute("resultados", libroService.todos());
             return "busqueda";
         }
 
