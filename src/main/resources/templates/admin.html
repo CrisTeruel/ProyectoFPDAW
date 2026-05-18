@@ -55,7 +55,7 @@
   </div>
 
   <h5>Libros en stock (<span th:text="${#lists.size(libros)}"></span> libros)</h5>
-  <table class="table table-striped">
+  <table class="table table-striped align-middle">
     <thead>
     <tr>
       <th>ISBN</th>
@@ -63,6 +63,7 @@
       <th>Autor/es</th>
       <th>Editorial</th>
       <th>Fecha</th>
+      <th>Stock</th>
       <th></th>
     </tr>
     </thead>
@@ -71,11 +72,22 @@
       <td th:text="${libro.isbn}"></td>
       <td th:text="${libro.titulo}"></td>
       <td>
-                        <span th:each="autor : ${libro.autores}"
-                              th:text="${autor.nombre} + ' '"></span>
+                <span th:each="autor : ${libro.autores}"
+                      th:text="${autor.nombre} + ' '"></span>
       </td>
       <td th:text="${libro.editorial.nombre}"></td>
       <td th:text="${libro.fechaPublicacion}"></td>
+      <td>
+        <!-- switch de stock con bootstrap, manda post al cambiar -->
+        <form th:action="@{/admin/stock}" method="post">
+          <input type="hidden" name="isbn" th:value="${libro.isbn}">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch"
+                   th:checked="${libro.enStock}"
+                   onchange="this.form.submit()">
+          </div>
+        </form>
+      </td>
       <td>
         <form th:action="@{/admin/borrar}" method="post">
           <input type="hidden" name="isbn" th:value="${libro.isbn}">

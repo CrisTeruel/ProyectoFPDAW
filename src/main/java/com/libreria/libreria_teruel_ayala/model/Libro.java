@@ -37,6 +37,9 @@ public class Libro {
     @Column(name = "fecha_alta")
     private java.time.LocalDateTime fechaAlta;
 
+    // marca si hay stock o no, por defecto false (sin stock)
+    @Column(name = "en_stock")
+    private Boolean enStock = false;
 
     // tabla relacion libro_autor
     @ManyToMany

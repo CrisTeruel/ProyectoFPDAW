@@ -27,7 +27,15 @@
 
 <div class="container mt-4">
 
-    <a th:href="@{/busqueda}" class="btn btn-secondary mb-3">← Volver a búsqueda</a>
+    <a href="javascript:history.back()" class="btn btn-secondary mb-3">← Volver</a>
+
+    <!-- banner de stock -->
+    <div th:if="${libro.enStock}" class="alert alert-success">
+        <strong>✓ En stock</strong> - disponible en la librería
+    </div>
+    <div th:unless="${libro.enStock}" class="alert alert-danger">
+        <strong>✗ Sin stock</strong> - actualmente no disponible
+    </div>
 
     <div class="row">
 

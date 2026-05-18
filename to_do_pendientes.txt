@@ -1,4 +1,3 @@
 TO_DO
 
-añadir in stock?
 añadir al / La vista de inicio mostrará información relativa a la librería, localización, logo, opciones de contacto… , 

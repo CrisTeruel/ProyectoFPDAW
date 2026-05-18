@@ -92,6 +92,7 @@ public class LibroService {
         }
 
         libro.setFechaAlta(java.time.LocalDateTime.now());
+        libro.setEnStock(false);
         return libroRepository.save(libro);
     }
 
@@ -148,6 +149,16 @@ public class LibroService {
     public List<Libro> todos() {
         // libroRepository.deleteAll();
         return libroRepository.findAll();
+    }
+
+    public void cambiarStock(String isbn) {
+        Libro libro = libroRepository.findByIsbn(isbn);
+        if (libro == null) {
+            throw new RuntimeException("El libro no existe");
+        }
+        // invertimos el valor actual
+        libro.setEnStock(!libro.getEnStock());
+        libroRepository.save(libro);
     }
 
     public List<Categoria> todasLasCategorias() {

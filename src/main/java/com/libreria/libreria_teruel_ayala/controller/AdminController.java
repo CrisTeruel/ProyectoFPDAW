@@ -42,4 +42,16 @@ public class AdminController {
         model.addAttribute("libros", libroService.todos());
         return "admin";
     }
+
+    @PostMapping("/stock")
+    public String cambiarStock(@RequestParam String isbn, Model model) {
+        try {
+            libroService.cambiarStock(isbn);
+            model.addAttribute("mensaje", "Stock actualizado");
+        } catch (RuntimeException e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        model.addAttribute("libros", libroService.todos());
+        return "admin";
+    }
 }
