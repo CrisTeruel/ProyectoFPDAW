@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Aplicacion ###
+# no subir las credenciales de bbdd ni la api key
+src/main/resources/application.properties

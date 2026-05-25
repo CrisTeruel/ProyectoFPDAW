@@ -1,0 +1,23 @@
+/* fondo con patron de libros */
+body {
+    background-color: #f5f1e8;
+    background-image:
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 30px,
+            rgba(139, 115, 85, 0.08) 30px,
+            rgba(139, 115, 85, 0.08) 32px,
+            transparent 32px,
+            transparent 45px,
+            rgba(139, 115, 85, 0.12) 45px,
+            rgba(139, 115, 85, 0.12) 48px,
+            transparent 48px,
+            transparent 70px
+        );
+}
+
+/* las cards y formularios con fondo blanco para que se lean bien */
+.card, .alert, .table, form .form-control, form .form-select {
+    background-color: #ffffff !important;
+}
